@@ -1,0 +1,49 @@
+load("@rules_license//rules:license.bzl", "license")
+load("@rules_license//rules:license_kind.bzl", "license_kind")
+
+package(
+    default_applicable_licenses = [":license"],
+    default_visibility = ["//visibility:public"],
+)
+
+license(
+    name = "license",
+    license_kinds = [
+        ":SPDX-license-identifier-GPL-2.0-only",
+    ],
+    license_text = "COPYING",
+    visibility = [":__subpackages__"],
+)
+
+license_kind(
+    name = "SPDX-license-identifier-GPL-2.0-only",
+    conditions = ["notice"],
+    url = "https://spdx.org/licenses/GPL-2.0-only.html",
+)
+
+cc_binary(
+    name = "pkg-config",
+    srcs = ["main.c"],
+    deps = [":pkg-config_lib"],
+)
+
+cc_library(
+    name = "pkg-config_lib",
+    srcs = [
+        "parse.c",
+        "parse.h",
+        "pkg.c",
+        "pkg.h",
+        "rpmvercmp.c",
+        "rpmvercmp.h",
+    ],
+    defines = [
+        "ENABLE_INDIRECT_DEPS=0",
+        "ENABLE_DEFINE_PREFIX=1",
+        "PKG_CONFIG_PC_PATH=\\\"\\\"",
+        "PKG_CONFIG_SYSTEM_INCLUDE_PATH=\\\"/usr/include\\\"",
+        "PKG_CONFIG_SYSTEM_LIBRARY_PATH=\\\"/usr/lib\\\"",
+        "VERSION=\\\"0.28\\\"",
+    ],
+    deps = ["@glib//:glib-static"],
+)
