@@ -45,5 +45,5 @@ cc_library(
         "PKG_CONFIG_SYSTEM_LIBRARY_PATH=\\\"/usr/lib\\\"",
         "VERSION=\\\"0.28\\\"",
     ],
-    deps = ["@glib//:glib-static"],
+    deps = ["@glib//glib"],
 )
